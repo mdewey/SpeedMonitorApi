@@ -1,23 +1,26 @@
+const { addSpeedTest, getSpeedPoints } = require("./src/datastore.js");
+
+
 
 const buildResponse = ({ 
-    statusCode = 200, 
-    data, 
-    meta = {
-      when: new Date().toISOString(),
-    }
-  }) => {
-    return {
-      statusCode,
-      body: JSON.stringify({
-        data,
-        meta,
-      }),
-    };
+  statusCode = 200, 
+  data, 
+  meta = {
+    when: new Date().toISOString(),
+  }
+}) => {
+  return {
+    statusCode,
+    body: JSON.stringify({
+      data,
+      meta,
+    }),
   };
+};
 
 module.exports.hello = async (event) => {
   console.log(process.env);
- return buildResponse({
+  return buildResponse({
     data: {
       message: "ping!",
 
@@ -29,22 +32,26 @@ module.exports.hello = async (event) => {
 module.exports.saveSpeedDataPoint = async (event) => {
   // parse the incoming request body as JSON 
   const body = JSON.parse(event.body);
- return buildResponse({
+  const { metadata, point } = await addSpeedTest(body);
+  return buildResponse({
     data: {
-      message: "Speed data point saved!",
+      point, 
     },
     meta:{
       params:{
         ...body
-      }
+      },
+      metadata
     }
   });
 };
 
 module.exports.getSpeedDataPoints = async (event) => {
+  const data = await getSpeedPoints({});
   return buildResponse({
     data: {
       message: "Speed data points retrieved!",
+      data,
     },
   });
-}
+};

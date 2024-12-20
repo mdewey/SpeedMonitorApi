@@ -26,12 +26,20 @@ functions:
           method: get
   saveDataPoints:
     handler: handler.saveSpeedDataPoint
+    environment:
+      TABLE_NAME: ${env:TABLE_NAME}
+      SECRET_KEY: ${env:SECRET_KEY}
+      ACCESS_KEY: ${env:ACCESS_KEY}
     events:
       - httpApi:
           path: /speed
           method: post
   getDataPoints:
     handler: handler.getSpeedDataPoints
+    environment:
+      TABLE_NAME: ${env:TABLE_NAME}
+      SECRET_KEY: ${env:SECRET_KEY}
+      ACCESS_KEY: ${env:ACCESS_KEY}
     events:
       - httpApi:
           path: /speed
