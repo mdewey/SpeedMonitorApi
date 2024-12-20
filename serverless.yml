@@ -1,0 +1,38 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: dewseph
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: SpeedMonitorApi
+frameworkVersion: "4"
+useDotenv: true
+plugins:
+  - serverless-offline
+ 
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+
+
+functions:
+  hello:
+    handler: handler.hello
+    environment:
+      TABLE_NAME: ${env:TABLE_NAME}
+      SECRET_KEY: ${env:SECRET_KEY}
+      ACCESS_KEY: ${env:ACCESS_KEY}
+    events:
+      - httpApi:
+          path: /
+          method: get
+  saveDataPoints:
+    handler: handler.saveSpeedDataPoint
+    events:
+      - httpApi:
+          path: /speed
+          method: post
+  getDataPoints:
+    handler: handler.getSpeedDataPoints
+    events:
+      - httpApi:
+          path: /speed
+          method: get
