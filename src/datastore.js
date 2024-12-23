@@ -30,7 +30,8 @@ const ddbClient = new DynamoDBClient({
   },
 });
 
-const addSpeedTest = async ({ downloadSpeed }) => {
+
+const addSpeedTest = async ({ downloadSpeed, daysToLive = 30 }) => {
   console.log('adding speed test', { downloadSpeed });
   const ddbDocClient = DynamoDBDocumentClient.from(ddbClient, {
     marshallOptions,
@@ -40,6 +41,7 @@ const addSpeedTest = async ({ downloadSpeed }) => {
     downloadSpeed,
     timestamp: new Date().toISOString(),
     id: uuidv4(),
+    ttl: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * daysToLive,
   };
 
   const params = {

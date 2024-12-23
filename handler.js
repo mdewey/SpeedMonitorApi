@@ -18,8 +18,7 @@ const buildResponse = ({
   };
 };
 
-module.exports.hello = async (event) => {
-  console.log(process.env);
+module.exports.hello = async () => {
   return buildResponse({
     data: {
       message: "ping!",
