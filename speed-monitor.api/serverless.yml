@@ -11,6 +11,8 @@ plugins:
 provider:
   name: aws
   runtime: nodejs20.x
+  httpApi:
+    cors: true
 
 
 functions:
@@ -20,6 +22,7 @@ functions:
       TABLE_NAME: ${env:TABLE_NAME}
       SECRET_KEY: ${env:SECRET_KEY}
       ACCESS_KEY: ${env:ACCESS_KEY}
+      API_KEYS: ${env:API_KEYS}
     events:
       - httpApi:
           path: /api/v1/ping
@@ -31,6 +34,8 @@ functions:
       SECRET_KEY: ${env:SECRET_KEY}
       ACCESS_KEY: ${env:ACCESS_KEY}
       JWT_SECRET: ${env:JWT_SECRET}
+      API_KEYS: ${env:API_KEYS}
+
     events:
       - httpApi:
           path: /api/v1/speed
@@ -42,6 +47,7 @@ functions:
       SECRET_KEY: ${env:SECRET_KEY}
       ACCESS_KEY: ${env:ACCESS_KEY}
       JWT_SECRET: ${env:JWT_SECRET}
+      API_KEYS: ${env:API_KEYS}
     events:
       - httpApi:
           path: /api/v1/speed
