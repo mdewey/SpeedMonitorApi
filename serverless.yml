@@ -30,6 +30,7 @@ functions:
       TABLE_NAME: ${env:TABLE_NAME}
       SECRET_KEY: ${env:SECRET_KEY}
       ACCESS_KEY: ${env:ACCESS_KEY}
+      JWT_SECRET: ${env:JWT_SECRET}
     events:
       - httpApi:
           path: /speed
@@ -40,7 +41,17 @@ functions:
       TABLE_NAME: ${env:TABLE_NAME}
       SECRET_KEY: ${env:SECRET_KEY}
       ACCESS_KEY: ${env:ACCESS_KEY}
+      JWT_SECRET: ${env:JWT_SECRET}
     events:
       - httpApi:
           path: /speed
           method: get
+  getToken: 
+    handler: handler.getToken
+    environment:
+      JWT_SECRET: ${env:JWT_SECRET}
+      API_KEY: ${env:API_KEY}
+    events:
+      - httpApi:
+          path: /token
+          method: post
