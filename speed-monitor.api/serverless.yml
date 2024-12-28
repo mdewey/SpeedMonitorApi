@@ -22,7 +22,7 @@ functions:
       ACCESS_KEY: ${env:ACCESS_KEY}
     events:
       - httpApi:
-          path: /
+          path: /api/v1/ping
           method: get
   saveDataPoints:
     handler: handler.saveSpeedDataPoint
@@ -33,7 +33,7 @@ functions:
       JWT_SECRET: ${env:JWT_SECRET}
     events:
       - httpApi:
-          path: /speed
+          path: /api/v1/speed
           method: post
   getDataPoints:
     handler: handler.getSpeedDataPoints
@@ -44,7 +44,7 @@ functions:
       JWT_SECRET: ${env:JWT_SECRET}
     events:
       - httpApi:
-          path: /speed
+          path: /api/v1/speed
           method: get
   getToken: 
     handler: handler.getToken
@@ -53,5 +53,5 @@ functions:
       API_KEY: ${env:API_KEY}
     events:
       - httpApi:
-          path: /token
+          path: /api/v1/token
           method: post
