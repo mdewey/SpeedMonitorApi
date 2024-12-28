@@ -50,7 +50,7 @@ functions:
     handler: handler.getToken
     environment:
       JWT_SECRET: ${env:JWT_SECRET}
-      API_KEY: ${env:API_KEY}
+      API_KEYS: ${env:API_KEYS}
     events:
       - httpApi:
           path: /api/v1/token

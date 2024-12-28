@@ -1,6 +1,6 @@
 const { addSpeedTest, getSpeedPoints } = require("./src/datastore.js");
 const { createToken, validateToken } = require("./src/token.js");
-
+const { validateApiKey } = require("./src/apiKeys.js");
 
 
 const buildResponse = ({ 
@@ -84,8 +84,8 @@ module.exports.getSpeedDataPoints = async (event) => {
 
 module.exports.getToken = async (event) => {
   const body = JSON.parse(event.body);
-  if (body.api_key === process.env.API_KEY) {
-    const token = createToken();
+  if (validateApiKey({ apiKey: body.api_key })) {
+    const token = createToken({ apiKey: body.api_key });
     return buildResponse({
       data: {
         token
