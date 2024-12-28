@@ -74,6 +74,7 @@ const getSpeedPoints = async () => {
   
 
   const { Items } = await ddbDocClient.send(new QueryCommand(params));
+  Items.sort((a, b) => a.ttl - b.ttl);
   return { params, items: Items };
 
 

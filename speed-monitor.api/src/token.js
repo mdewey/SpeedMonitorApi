@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 
-const createToken = () => {
+const createToken = ({ data = {} }) => {
   return jwt.sign({
-    permission:['speed.write', 'speed.read']
+    permission:['speed.write', 'speed.read'],
+    ...data
   }, process.env.JWT_SECRET, {
     expiresIn: '1h'
   });
