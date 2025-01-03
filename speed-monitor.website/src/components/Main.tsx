@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import Graph from "./Graph";
+import Dashboard from "./Dashboard";
 
 
 export default function Main() {
@@ -33,6 +34,7 @@ export default function Main() {
   return (
     <div>
       <div>{isFetching ? 'Updating...' : ''}</div>
+      <Dashboard points={data.data.points} />
       <Graph points={data.data.points} />
     </div>
   )

@@ -8,15 +8,18 @@ import {
 } from "victory";
 
 
+
+interface Point {
+  timestamp: string;
+  downloadSpeed: number;
+}
+
 export interface GraphProps {
-  points: {
-    timestamp: string;
-    downloadSpeed: number;
-  }[];
+  points: Point[];
 }
 
 
-const Graph: React.FC = ({ points }) => {
+const Graph: React.FC<GraphProps> = ({ points }) => {
   return (
     <div style={{ backgroundColor: 'white', padding: '20px' }}>
       <VictoryChart
@@ -24,19 +27,19 @@ const Graph: React.FC = ({ points }) => {
       >
         <VictoryAxis dependentAxis
           label={'Download Speed (Mbps)'}
-          tickFormat={(x: any) => `${x}`}
+          tickFormat={(x: number) => `${x}`}
           style={{
             axisLabel: { padding: 50 },
           }}
         />
         <VictoryAxis crossAxis
           label={'Time'}
-          tickFormat={(x: any) => ''}
+          tickFormat={() => ''}
         />
         <VictoryLine
           interpolation="linear"
           theme={VictoryTheme.clean}
-          data={points.map((point: { timestamp: any; downloadSpeed: any; }) => {
+          data={points.map((point: Point) => {
             return {
               x: point.timestamp,
               y: point.downloadSpeed,
