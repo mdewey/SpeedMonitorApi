@@ -21,7 +21,7 @@ export interface GraphProps {
 
 const Graph: React.FC<GraphProps> = ({ points }) => {
   return (
-    <div style={{ backgroundColor: 'white', padding: '20px' }}>
+    <div style={{ backgroundColor: '#f5f5f5', padding: '20px' }}>
       <VictoryChart
         theme={VictoryTheme.clean}
       >
