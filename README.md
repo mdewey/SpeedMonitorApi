@@ -4,10 +4,6 @@
 
 AWS Lambda + Serverless + Dyanamo Db
 
-### TODO
-
-- redeploy once its all done
-
 ## Speed Monitor IoT
 
 Node script that sends data
@@ -18,9 +14,7 @@ Node script that sends data
 
 ## Speed Monitor Website
 
-- Load data
-- Show Summary
-- Show over time
+Vite (react + TS)
 
 ## Speed Monitor WatchDog
 
