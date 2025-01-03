@@ -1,10 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
+import Graph from "./Graph";
 
-import {
-  VictoryChart,
-  VictoryLine,
-  VictoryTheme,
-} from "victory";
 
 export default function Main() {
   const { isPending, error, data, isFetching } = useQuery({
@@ -34,25 +30,10 @@ export default function Main() {
   if (isPending) return 'Loading...'
 
   if (error) return 'An error has occurred: ' + error.message
-  console.log({ data })
-
   return (
     <div>
       <div>{isFetching ? 'Updating...' : ''}</div>
-      <div style={{ backgroundColor: 'white', padding: '20px' }}>
-        <VictoryChart
-          theme={VictoryTheme.clean}
-        >
-          <VictoryLine
-            interpolation="linear"
-            data={data.data.points.map((point: { timestamp: any; downloadSpeed: any; }) => {
-              return {
-                x: point.timestamp,
-                y: point.downloadSpeed,
-              }
-            })} />
-        </VictoryChart>
-      </div>
+      <Graph points={data.data.points} />
     </div>
   )
 };
