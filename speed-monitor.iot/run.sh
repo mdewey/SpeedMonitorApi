@@ -1,0 +1,1 @@
+C:\Users\markt\AppData\Roaming\nvm\v21.7.1\node.exe --env-file=C:\Users\markt\projects\speed-monitor\SpeedMonitorApi\speed-monitor.iot\.env.production C:\Users\markt\projects\speed-monitor\SpeedMonitorApi\speed-monitor.iot\index.js 
