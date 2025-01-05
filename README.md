@@ -6,15 +6,12 @@ AWS Lambda + Serverless + Dyanamo Db
 
 ## Speed Monitor IoT
 
-Node script that sends data
-
-### TODO
-
-- Set up to run on pi
+Node script that sends data, enabled on my laptop as a background job
 
 ## Speed Monitor Website
 
 Vite (react + TS)
+deployed to netlify + google domains
 
 ## Speed Monitor WatchDog
 

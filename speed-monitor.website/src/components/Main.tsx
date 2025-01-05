@@ -4,6 +4,7 @@ import Dashboard from "./Dashboard";
 
 
 export default function Main() {
+  const oneHour = 60 * 60 * 1000;
   const { isPending, error, data, isFetching } = useQuery({
     queryKey: ['speed-data'],
     queryFn: async () => {
@@ -26,6 +27,7 @@ export default function Main() {
       });
       return dataResponse.json();
     },
+    refetchInterval: oneHour,
   })
 
   if (isPending) return 'Loading...'
