@@ -19,7 +19,7 @@ functions:
   hello:
     handler: handler.hello
     environment:
-      TABLE_NAME: ${env:TABLE_NAME}
+      TABLE_NAME: ${env:SPEED_TABLE_NAME}
       SECRET_KEY: ${env:SECRET_KEY}
       ACCESS_KEY: ${env:ACCESS_KEY}
       API_KEYS: ${env:API_KEYS}
@@ -30,7 +30,7 @@ functions:
   saveDataPoints:
     handler: handler.saveSpeedDataPoint
     environment:
-      TABLE_NAME: ${env:TABLE_NAME}
+      TABLE_NAME: ${env:SPEED_TABLE_NAME}
       SECRET_KEY: ${env:SECRET_KEY}
       ACCESS_KEY: ${env:ACCESS_KEY}
       JWT_SECRET: ${env:JWT_SECRET}
@@ -43,7 +43,7 @@ functions:
   getDataPoints:
     handler: handler.getSpeedDataPoints
     environment:
-      TABLE_NAME: ${env:TABLE_NAME}
+      TABLE_NAME: ${env:SPEED_TABLE_NAME}
       SECRET_KEY: ${env:SECRET_KEY}
       ACCESS_KEY: ${env:ACCESS_KEY}
       JWT_SECRET: ${env:JWT_SECRET}
@@ -61,3 +61,23 @@ functions:
       - httpApi:
           path: /api/v1/token
           method: post
+  saveHeartBeat:
+    handler: handler.saveHeartBeat
+    environment:
+      TABLE_NAME: ${env:HEART_BEAT_TABLE_NAME}
+      SECRET_KEY: ${env:SECRET_KEY}
+      ACCESS_KEY: ${env:ACCESS_KEY}
+      JWT_SECRET: ${env:JWT_SECRET}
+      API_KEYS: ${env:API_KEYS}
+    events:
+      - httpApi:
+          path: /api/v1/heartbeat
+          method: post
+  watchdog:
+    handler: handler.watchdog
+    environment:
+      HEART_BEAT_TABLE_NAME: ${env:HEART_BEAT_TABLE_NAME}
+      SPEED_TEST_TABLE_NAME: ${env:SPEED_TABLE_NAME}
+      SECRET_KEY: ${env:SECRET_KEY}
+      ACCESS_KEY: ${env:ACCESS_KEY}
+      API_KEYS: ${env:API_KEYS}

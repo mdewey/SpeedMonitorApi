@@ -1,13 +1,12 @@
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const {
   DynamoDBDocumentClient,
-  PutCommand,
-  QueryCommand,
+  QueryCommand
 } = require('@aws-sdk/lib-dynamodb');
-const { v4: uuidv4 } = require('uuid');
+const { isEverythingOkay } = require('../heartbeat/analytics');
 
 const REGION = process.env.REGION || 'us-east-1';
-const TABLE_NAME = process.env.TABLE_NAME || 'speed-test-results-dev';
+const TABLE_NAME = process.env.SPEED_TEST_TABLE_NAME || 'speed-test-results-dev';
 const DEFAULT_LOCATION = process.env.DEFAULT_LOCATION || 'The Rusty Dragon';
 
 const marshallOptions = {
@@ -28,35 +27,6 @@ const ddbClient = new DynamoDBClient({
   },
 });
 
-
-const addSpeedTest = async ({ 
-  downloadSpeed, 
-  daysToLive = 14, 
-  trackedLocation = DEFAULT_LOCATION 
-}) => {
-  const ddbDocClient = DynamoDBDocumentClient.from(ddbClient, {
-    marshallOptions,
-    unmarshallOptions,
-  });
-  const point = {
-    downloadSpeed,
-    timestamp: new Date().toISOString(),
-    id: uuidv4(),
-    ttl: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * daysToLive,
-    tracked_location:trackedLocation,
-  };
-
-  const params = {
-    TableName: TABLE_NAME,
-    Item: {
-      ...point,      
-    },
-  };
-
-  const metadata = await ddbDocClient.send(new PutCommand(params));
-  return { metadata, point };
-};
-
 const getSpeedPoints = async () => {
   const ddbDocClient = DynamoDBDocumentClient.from(ddbClient, {
     marshallOptions,
@@ -76,13 +46,40 @@ const getSpeedPoints = async () => {
   const { Items } = await ddbDocClient.send(new QueryCommand(params));
   Items.sort((a, b) => a.ttl - b.ttl);
   return { params, items: Items };
+};
 
 
 
+const getCurrentStatus = async () => {
+  const { items:points } = await getSpeedPoints();
+
+  // remove the top 10% and bottom 10% of the data
+  const sortedPoints = points.map((point) => point.downloadSpeed).sort();
+  const sliceIndex = Math.floor(sortedPoints.length * 0.1);
+  const slicedPoints = sortedPoints.slice(sliceIndex, sortedPoints.length - sliceIndex);
+  const slicedAverage = slicedPoints
+    .reduce((acc, point) => acc + point, 0) / slicedPoints.length;
+  const dateRange = {
+    oldest: points.reduce((acc, point) => {
+      if (!acc) return point;
+      return new Date(acc.timestamp) < new Date(point.timestamp) ? acc : point;
+    }, null),
+    newest: points.reduce((acc, point) => {
+      if (!acc) return point;
+      return new Date(acc.timestamp) > new Date(point.timestamp) ? acc : point;
+    }, null),
+  };
+  const rv = {
+    count: points.length,
+    isEverythingOkay: slicedAverage > 1000,
+    slicedAverage,
+    dateRange
+  };
+
+  return rv;
 };
 
 
 module.exports = {
-  addSpeedTest,  
-  getSpeedPoints
+  getCurrentStatus
 };

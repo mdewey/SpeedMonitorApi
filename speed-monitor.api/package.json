@@ -1,12 +1,13 @@
 {
   "scripts": {
-    "info": "serverless info",
+    "info": "serverless help",
     "deploy": "serverless deploy",
     "invoke": "serverless invoke",
     "start": "serverless offline --reloadHandler",
     "test": "jest",
     "test-coverage": "jest --coverage",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "watchdog":"serverless invoke local --function watchdog"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
