@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node --env-file=.env index.js ",
-    "results": "node read-file.js"
+    "results": "node read-file.js",
+    "heartbeat": "node --env-file=.env.production heartbeat.js"
   },
   "author": "",
   "license": "ISC",
